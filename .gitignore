@@ -3,6 +3,9 @@
 mvnw
 mvnw.cmd
 
+*.txt
+*.log
+
 ### STS ###
 .apt_generated
 .classpath
