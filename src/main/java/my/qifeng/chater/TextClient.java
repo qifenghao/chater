@@ -7,7 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.InetAddress;
 
-public class TextClient  extends JFrame implements MessageProcessor {
+public class TextClient  extends JFrame {
     private SipLayer sipLayer;
     
     private JTextField fromAddress;
@@ -34,7 +34,7 @@ public class TextClient  extends JFrame implements MessageProcessor {
 
 			SipLayer sipLayer = new SipLayer(username, ip, port);
 		    TextClient tc = new TextClient(sipLayer);
-		    sipLayer.setMessageProcessor(tc);
+		    sipLayer.setMessageProcessor(new MessageProcessorImpl(tc.receivedMessages));
 			
 			tc.show();
         } catch (Throwable e) {
@@ -153,17 +153,5 @@ public class TextClient  extends JFrame implements MessageProcessor {
             this.receivedMessages.append("ERROR sending message: " + e.getMessage() + "\n");
         }
         			
-    }
-
-    public void processMessage(String sender, String message) {
-        this.receivedMessages.append("<<< From " + sender + "\n" + message + "\n");
-    }
-
-    public void processError(String errorMessage) {
-        this.receivedMessages.append("ERROR: " + errorMessage + "\n");
-    }
-
-    public void processInfo(String infoMessage) {
-        this.receivedMessages.append(infoMessage + "\n");
     }
 }

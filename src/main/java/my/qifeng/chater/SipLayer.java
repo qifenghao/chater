@@ -14,21 +14,15 @@ import java.util.Properties;
 import java.util.TooManyListenersException;
 
 public class SipLayer implements SipListener {
-
     private MessageProcessor messageProcessor;
 
     private String username;
 
     private SipStack sipStack;
-
     private SipFactory sipFactory;
-
     private AddressFactory addressFactory;
-
     private HeaderFactory headerFactory;
-
     private MessageFactory messageFactory;
-
     private SipProvider sipProvider;
 
     /**
@@ -107,6 +101,8 @@ public class SipLayer implements SipListener {
 
         ContentTypeHeader contentTypeHeader = headerFactory.createContentTypeHeader("text", "plain");
         request.setContent(message, contentTypeHeader);
+
+        messageProcessor.processInfo(">>> " + to + "\n" + message);
 
         sipProvider.sendRequest(request);
     }
@@ -194,18 +190,18 @@ public class SipLayer implements SipListener {
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
-    public void setUsername(String newUsername) {
-        username = newUsername;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public MessageProcessor getMessageProcessor() {
-        return messageProcessor;
+        return this.messageProcessor;
     }
 
-    public void setMessageProcessor(MessageProcessor newMessageProcessor) {
-        messageProcessor = newMessageProcessor;
+    public void setMessageProcessor(MessageProcessor messageProcessor) {
+        this.messageProcessor = messageProcessor;
     }
 }
