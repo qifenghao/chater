@@ -1,1 +1,1 @@
-A simple SIP client for Chatroom.
+A simple SIP chat tool.
