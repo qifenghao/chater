@@ -22,7 +22,7 @@ public class TextClient  extends JFrame {
     private JLabel toLbl;
 	
     public static void main(String[] args) {
-        if(args.length != 2) {
+        if(args.length < 2 || args.length > 3) {
             printUsage();
             System.exit(-1);            
         }
@@ -30,7 +30,12 @@ public class TextClient  extends JFrame {
 		try {
 		    String username = args[0];
 		    int port = Integer.parseInt(args[1]);
-		    String ip = InetAddress.getLocalHost().getHostAddress();
+		    String ip;
+		    if (args.length == 3) {
+		        ip = args[2];
+            } else {
+		        ip = InetAddress.getLocalHost().getHostAddress();
+            }
 
 			SipLayer sipLayer = new SipLayer(username, ip, port);
 		    TextClient tc = new TextClient(sipLayer);
@@ -46,11 +51,13 @@ public class TextClient  extends JFrame {
 
     private static void printUsage() {
         System.out.println("Syntax:");
-        System.out.println("  java -jar textclient.jar <username> <port>");
+        System.out.println("  java -jar textclient.jar <username> <port> <ip>");
         System.out.println("where <username> is the nickname of this user");
         System.out.println("and <port> is the port number to use. Usually 5060 if not used by another process.");
+        System.out.println("The <ip> is optional. If your device has multi interfaces, you can choose one as the <ip> manually.");
         System.out.println("Example:");
         System.out.println("  java -jar chater.jar Alice 5060");
+        System.out.println("  java -jar chater.jar Alice 5060 192.168.0.132");
     }
 
     public TextClient(SipLayer sip) {
